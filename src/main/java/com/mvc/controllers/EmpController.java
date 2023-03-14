@@ -33,6 +33,14 @@ public class EmpController {
 		return "redirect:/viewemp";
 	}
 
+
+	@RequestMapping(value = "/saveTcs", method = RequestMethod.POST)
+	public String Tcssave(@ModelAttribute("tcs") TcsEntity tcs) {
+
+		tcsDao.save(tcs);
+		return "redirect:/tcsEmp";
+	}
+
 	@RequestMapping("/viewemp")
 	public String viewemp(Model m) {
 		
@@ -60,6 +68,14 @@ public class EmpController {
 		return "viewemp";
 	}
 
+	@RequestMapping("/tcsEmp")
+	public String tcsEmp(Model m) {
+
+		List<TcsEntity> tcslist = tcsDao.getEmployees();
+		m.addAttribute("tcslist", tcslist);
+		return "TcsEmp";
+	}
+
 	@RequestMapping(value = "/editemp/{id}")
 	public String edit(@PathVariable int id, Model m) {
 		Emp emp = dao.getEmpById(id);
@@ -73,10 +89,27 @@ public class EmpController {
 		return "redirect:/viewemp";
 	}
 
+
+
+	@RequestMapping(value = "/editTcssave", method = RequestMethod.POST)
+	public String editTcssave(@ModelAttribute("tcs") TcsEntity tcs) {
+		tcsDao.update(tcs);
+		return "redirect:/tcsEmp";
+	}
+
+
 	@RequestMapping(value = "/deleteemp/{id}", method = RequestMethod.GET)
 	public String delete(@PathVariable int id) {
 		dao.delete(id);
 		return "redirect:/viewemp";
 	}
+
+
+	@RequestMapping(value = "/deleteTcs/{id}", method = RequestMethod.GET)
+	public String deleteTcs(@PathVariable int id) {
+		tcsDao.delete(id);
+		return "redirect:/tcsEmp";
+	}
+	
 
 }
